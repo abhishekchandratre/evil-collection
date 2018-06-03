@@ -101,7 +101,7 @@
 
 (defun evil-collection-helm-setup ()
   "Set up `evil' bindings for `helm'."
-  (add-hook 'helm-minibuffer-set-up-hook 'evil-collection-helm-hide-minibuffer-maybe)
+  ; (add-hook 'helm-minibuffer-set-up-hook 'evil-collection-helm-hide-minibuffer-maybe)
   (setq helm-default-prompt-display-function 'evil-collection-helm--set-prompt-display)
 
   (evil-define-key '(insert normal) helm-map
