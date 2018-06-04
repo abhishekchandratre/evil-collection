@@ -55,13 +55,11 @@
   (evil-define-key 'normal ggtags-mode-map
     "gd" 'ggtags-find-tag-dwim
     (kbd "C-t") 'ggtags-prev-mark
-    "gf" 'ggtags-find-file
-    "gj" 'ggtags-next-mark
-    "gk" 'ggtags-prev-mark)
+    "gf" 'ggtags-find-file)
 
   (evil-define-key 'normal ggtags-view-search-history-mode-map
-    "gj" 'ggtags-view-search-history-next
-    "gk" 'ggtags-view-search-history-prev
+    "gj" 'ggtags-next-mark
+    "gk" 'ggtags-prev-mark
     (kbd "C-j") 'ggtags-view-search-history-next
     (kbd "C-k") 'ggtags-view-search-history-prev
     "]" 'ggtags-view-search-history-next
