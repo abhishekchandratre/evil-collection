@@ -40,8 +40,6 @@
     ;; motion
     (kbd "SPC") 'scroll-up-command
     (kbd "S-SPC") 'scroll-down-command
-    (kbd "C-f") 'scroll-up-command
-    (kbd "C-b") 'scroll-down-command
     (kbd "<tab>") 'forward-button
     (kbd "<backtab>") 'backward-button
 
