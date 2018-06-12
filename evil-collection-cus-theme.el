@@ -30,6 +30,7 @@
 (require 'cus-theme)
 (require 'evil)
 
+(declare-function evil-collection-define-key "evil-collection")
 (defconst evil-collection-cus-theme-maps '(custom-theme-choose-mode-map
                                            custom-new-theme-mode-map))
 
@@ -38,7 +39,7 @@
   (evil-set-initial-state 'custom-new-theme-mode 'normal)
   (evil-set-initial-state 'custom-theme-choose-mode 'normal)
 
-  (evil-define-key 'normal custom-theme-choose-mode-map
+  (evil-collection-define-key 'normal 'custom-theme-choose-mode-map
     "gj" 'widget-forward
     "gk" 'widget-backward
     (kbd "]") 'widget-forward
@@ -47,7 +48,7 @@
     (kbd "C-k") 'widget-backward
     "K" 'custom-describe-theme)
 
-  (evil-define-key 'normal custom-new-theme-mode-map
+  (evil-collection-define-key 'normal 'custom-new-theme-mode-map
     "gj" 'widget-forward
     "gk" 'widget-backward
     (kbd "]") 'widget-forward

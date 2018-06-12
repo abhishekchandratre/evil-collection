@@ -31,6 +31,7 @@
 (require 'evil-collection-util)
 (require 'transmission nil t)
 
+(declare-function evil-collection-define-key "evil-collection")
 (defvar transmission-mode-map)
 (defvar transmission-files-mode-map)
 (defvar transmission-info-mode-map)
@@ -46,7 +47,7 @@
 
   (evil-collection-util-inhibit-insert-state transmission-mode-map)
   (evil-set-initial-state 'transmission-mode 'normal)
-  (evil-define-key 'normal transmission-mode-map
+  (evil-collection-define-key 'normal 'transmission-mode-map
     ;; motion
     (kbd "SPC") 'scroll-up-command
     (kbd "S-SPC") 'scroll-down-command
@@ -86,7 +87,7 @@
 
   (evil-collection-util-inhibit-insert-state transmission-files-mode-map)
   (evil-set-initial-state 'transmission-files-mode 'normal)
-  (evil-define-key 'normal transmission-files-mode-map
+  (evil-collection-define-key 'normal 'transmission-files-mode-map
     (kbd "SPC") 'scroll-up-command
     (kbd "S-SPC") 'scroll-down-command
     (kbd "<delete>") 'scroll-down-command
@@ -127,7 +128,7 @@
 
   (evil-collection-util-inhibit-insert-state transmission-info-mode-map)
   (evil-set-initial-state 'transmission-info-mode 'normal)
-  (evil-define-key 'normal transmission-info-mode-map
+  (evil-collection-define-key 'normal 'transmission-info-mode-map
     "p" 'transmission-peers
 
     "t" 'transmission-trackers-add
@@ -143,7 +144,7 @@
     "ZQ" 'evil-quit
     "ZZ" 'quit-window)
 
-  (evil-define-key 'operator transmission-info-mode-map
+  (evil-collection-define-key 'operator 'transmission-info-mode-map
     ;; Like `eww'.
     "u" '(menu-item
           ""
@@ -157,7 +158,7 @@
 
   (evil-collection-util-inhibit-insert-state transmission-peers-mode-map)
   (evil-set-initial-state 'transmission-peers-mode 'normal)
-  (evil-define-key 'normal transmission-peers-mode-map
+  (evil-collection-define-key 'normal 'transmission-peers-mode-map
     ;; sort
     "o" 'tabulated-list-sort
 

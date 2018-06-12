@@ -30,6 +30,8 @@
 (require 'evil)
 (require 'rjsx-mode nil t)
 
+(declare-function evil-collection-define-key "evil-collection")
+
 (defvar rjsx-mode-map)
 
 (defconst evil-collection-rjsx-maps '(rjsx-mode-map))
@@ -37,9 +39,9 @@
 (defun evil-collection-rjsx-mode-setup ()
   "Set up `evil' bindings for `rjsx-mode'."
   (when evil-want-C-d-scroll
-    (evil-define-key 'insert rjsx-mode-map
+    (evil-collection-define-key 'insert 'rjsx-mode-map
       (kbd "C-d") 'rjsx-delete-creates-full-tag)
-    (evil-define-key 'normal rjsx-mode-map
+    (evil-collection-define-key 'normal 'rjsx-mode-map
       (kbd "C-d") 'evil-scroll-down)))
 
 (provide 'evil-collection-rjsx-mode)

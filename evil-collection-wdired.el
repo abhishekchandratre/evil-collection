@@ -30,14 +30,15 @@
 (require 'evil)
 (require 'wdired)
 
+(declare-function evil-collection-define-key "evil-collection")
 (defconst evil-collection-wdired-maps '(wdired-mode-map))
 
 (defun evil-collection-wdired-setup ()
   "Set up `evil' bindings for `wdired'."
-  (evil-define-key nil wdired-mode-map
+  (evil-collection-define-key nil 'wdired-mode-map
     [remap evil-write] 'wdired-finish-edit)
 
-  (evil-define-key 'normal wdired-mode-map
+  (evil-collection-define-key 'normal 'wdired-mode-map
     "ZQ" 'wdired-abort-changes
     "ZZ" 'wdired-finish-edit
     (kbd "<escape>") 'wdired-exit))

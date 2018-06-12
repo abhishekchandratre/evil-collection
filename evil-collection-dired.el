@@ -30,11 +30,12 @@
 (require 'dired)
 (require 'evil)
 
+(declare-function evil-collection-define-key "evil-collection")
 (defconst evil-collection-dired-maps '(dired-mode-map))
 
 (defun evil-collection-dired-setup ()
   "Set up `evil' bindings for `dired'."
-  (evil-define-key 'normal dired-mode-map
+  (evil-collection-define-key 'normal 'dired-mode-map
     "q" 'quit-window
     "j" 'dired-next-line
     "k" 'dired-previous-line

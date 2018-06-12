@@ -31,6 +31,8 @@
 (require 'pdf-tools nil t)
 (require 'pdf-view nil t)
 
+(declare-function evil-collection-define-key "evil-collection")
+
 (defconst evil-collection-pdf-maps '(pdf-view-mode-map
                                      pdf-outline-buffer-mode-map
                                      pdf-occur-buffer-mode-map))
@@ -38,6 +40,9 @@
 (declare-function pdf-view-last-page "pdf-view")
 (declare-function pdf-view-first-page "pdf-view")
 (declare-function pdf-view-goto-page "pdf-view")
+(declare-function pdf-view-previous-line-or-previous-page "pdf-view")
+(declare-function pdf-view-next-line-or-next-page "pdf-view")
+
 (defvar pdf-view-mode-map)
 (defvar pdf-outline-buffer-mode-map)
 (defvar pdf-occur-buffer-mode-map)
@@ -45,6 +50,28 @@
 (defvar pdf-view-mode-map)
 (defvar pdf-outline-buffer-mode-map)
 (defvar pdf-occur-buffer-mode-map)
+
+;; TODO: The following 2 functions are workarounds for
+;; 'pdf-view-next-line-or-next-page' and
+;; 'pdf-view-previous-line-or-previous-page' not playing well with
+;; EVIL. The root cause should be found and fixed instead.
+;; See https://github.com/emacs-evil/evil-collection/pull/137 for
+;; details.
+(defun evil-collection-pdf-view-next-line-or-next-page (&optional count)
+  "'evil' wrapper include a count argument to `pdf-view-next-line-or-next-page'"
+  (interactive "P")
+  (if count
+      (dotimes (_ count nil)
+	(pdf-view-next-line-or-next-page 1))
+    (pdf-view-next-line-or-next-page 1)))
+
+(defun evil-collection-pdf-view-previous-line-or-previous-page (&optional count)
+  "'evil' wrapper include a count argument to `pdf-view-previous-line-or-previous-page'"
+  (interactive "P")
+  (if count
+      (dotimes (_ count nil)
+	(pdf-view-previous-line-or-previous-page 1))
+    (pdf-view-previous-line-or-previous-page 1)))
 
 (defun evil-collection-pdf-view-goto-page (&optional page)
   "`evil' wrapper around `pdf-view-last-page'."
@@ -66,11 +93,11 @@
   "Set up `evil' bindings for `pdf-view'."
   (evil-collection-util-inhibit-insert-state pdf-view-mode-map)
   (evil-set-initial-state 'pdf-view-mode 'normal)
-  (evil-define-key 'normal pdf-view-mode-map
+  (evil-collection-define-key 'normal 'pdf-view-mode-map
     ;; motion
     (kbd "<return>") 'image-next-line
-    "j" 'pdf-view-next-line-or-next-page
-    "k" 'pdf-view-previous-line-or-previous-page
+    "j" 'evil-collection-pdf-view-next-line-or-next-page
+    "k" 'evil-collection-pdf-view-previous-line-or-previous-page
     (kbd "SPC") 'pdf-view-scroll-up-or-next-page
     (kbd "S-SPC") 'pdf-view-scroll-down-or-previous-page
     (kbd "<delete>") 'pdf-view-scroll-down-or-previous-page
@@ -84,8 +111,8 @@
     "gk" 'pdf-view-previous-page-command
     (kbd "<next>") 'forward-page
     (kbd "<prior>") 'backward-page
-    (kbd "<down>") 'pdf-view-next-line-or-next-page
-    (kbd "<up>") 'pdf-view-previous-line-or-previous-page
+    (kbd "<down>") 'evil-collection-pdf-view-next-line-or-next-page
+    (kbd "<up>") 'evil-collection-pdf-view-previous-line-or-previous-page
     "gg" 'evil-collection-pdf-view-goto-first-page
     "G" 'evil-collection-pdf-view-goto-page
 
@@ -138,14 +165,16 @@
     ;; search
     (kbd "M-s o") 'pdf-occur ; TODO: More Evil bindings?
 
-    "/" #'isearch-forward
-    "?" #'isearch-backward
-    "n" #'isearch-repeat-forward
-    "N" #'isearch-repeat-backward
+    "/" 'isearch-forward
+    "?" 'isearch-backward
+    "n" 'isearch-repeat-forward
+    "N" 'isearch-repeat-backward
 
     "zd" 'pdf-view-dark-minor-mode
     "zm" 'pdf-view-midnight-minor-mode
     "zp" 'pdf-view-printer-minor-mode
+
+    "o" 'pdf-outline
 
     ;; quit
     "q" 'quit-window
@@ -155,7 +184,7 @@
 
   (evil-collection-util-inhibit-insert-state pdf-outline-buffer-mode-map)
   (evil-set-initial-state 'pdf-outline-buffer-mode 'normal)
-  (evil-define-key 'normal pdf-outline-buffer-mode-map
+  (evil-collection-define-key 'normal 'pdf-outline-buffer-mode-map
     ;; open
     (kbd "<return>") 'pdf-outline-follow-link-and-quit
     (kbd "S-<return>") 'pdf-outline-follow-link
@@ -178,7 +207,7 @@
 
   (evil-collection-util-inhibit-insert-state pdf-occur-buffer-mode-map)
   (evil-set-initial-state 'pdf-occur-buffer-mode 'normal)
-  (evil-define-key 'normal pdf-occur-buffer-mode-map
+  (evil-collection-define-key 'normal 'pdf-occur-buffer-mode-map
     ;; open
     (kbd "<return>") 'pdf-occur-goto-occurrence
     (kbd "S-<return>") 'pdf-occur-view-occurrence

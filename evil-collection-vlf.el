@@ -30,6 +30,8 @@
 (require 'evil)
 (require 'vlf nil t)
 
+(declare-function evil-collection-define-key "evil-collection")
+
 (defvar vlf-mode-map)
 (declare-function vlf-change-batch-size "vlf")
 
@@ -45,7 +47,7 @@
   "Set up `evil' bindings for `vlf'."
   (evil-set-initial-state 'vlf-mode 'normal)
 
-  (evil-define-key 'normal vlf-mode-map
+  (evil-collection-define-key 'normal 'vlf-mode-map
     "gj" 'vlf-next-batch
     "gk" 'vlf-prev-batch
     (kbd "C-j") 'vlf-next-batch

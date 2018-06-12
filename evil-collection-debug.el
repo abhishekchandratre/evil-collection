@@ -31,13 +31,14 @@
 (require 'evil)
 (require 'debug)
 
+(declare-function evil-collection-define-key "evil-collection")
 (defconst evil-collection-debug-maps '(debugger-mode-map))
 
 (defun evil-collection-debug-setup ()
   "Set up `evil' bindings for `debug'."
   (evil-set-initial-state 'debugger-mode 'normal)
 
-  (evil-define-key 'normal debugger-mode-map
+  (evil-collection-define-key 'normal 'debugger-mode-map
     ;; motion
     (kbd "<tab>") 'forward-button
     (kbd "S-<tab>") 'backward-button

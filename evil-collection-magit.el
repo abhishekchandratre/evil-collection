@@ -35,12 +35,13 @@
 (require 'magit nil t)
 
 (defvar magit-blame-mode-map)
+(declare-function evil-collection-define-key "evil-collection")
 
 (defconst evil-collection-magit-maps '(magit-blame-mode-map))
 
 (defun evil-collection-magit-setup ()
   "Set up `evil' bindings for `magit'."
-  (evil-define-key 'normal magit-blame-mode-map
+  (evil-collection-define-key 'normal 'magit-blame-mode-map
     "q" 'magit-blame-quit))
 
 (provide 'evil-collection-magit)

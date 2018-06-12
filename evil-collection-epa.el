@@ -31,12 +31,13 @@
 (require 'evil)
 (require 'epa nil t)
 
+(declare-function evil-collection-define-key "evil-collection")
 (defconst evil-collection-epa-maps '(epa-key-list-mode-map
                                      epa-key-mode-map
                                      epa-info-mode-map))
 
 (defun evil-collection-epa-setup ()
-  (evil-define-key 'normal epa-key-list-mode-map
+  (evil-collection-define-key 'normal 'epa-key-list-mode-map
     (kbd "<tab>") 'widget-forward
     "gr" 'revert-buffer
     "q" 'epa-exit-buffer
@@ -56,12 +57,12 @@
     "i" 'epa-import-keys
     "o" 'epa-export-keys)
 
-  (evil-define-key 'normal epa-key-mode-map
+  (evil-collection-define-key 'normal 'epa-key-mode-map
     "q" 'epa-exit-buffer
     "ZZ" 'quit-window
     "ZQ" 'evil-quit)
 
-  (evil-define-key 'normal epa-info-mode-map
+  (evil-collection-define-key 'normal 'epa-info-mode-map
     "q" 'delete-window
     "ZZ" 'quit-window
     "ZQ" 'evil-quit))

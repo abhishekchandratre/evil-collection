@@ -30,6 +30,8 @@
 (require 'evil)
 (require 'alchemist nil t)
 
+(declare-function evil-collection-define-key "evil-collection")
+
 (defconst evil-collection-alchemist-maps '(alchemist-compile-mode-map
                                            alchemist-eval-mode-map
                                            alchemist-execute-mode-map
@@ -54,19 +56,19 @@
   (evil-set-initial-state 'alchemist-test-mode 'normal)
   (evil-set-initial-state 'alchemist-test-report-mode 'normal)
 
-  (evil-define-key 'normal alchemist-compile-mode-map
+  (evil-collection-define-key 'normal 'alchemist-compile-mode-map
     "q" 'quit-window)
 
-  (evil-define-key 'normal alchemist-eval-mode-map
+  (evil-collection-define-key 'normal 'alchemist-eval-mode-map
     "q" 'quit-window)
 
-  (evil-define-key 'normal alchemist-execute-mode-map
+  (evil-collection-define-key 'normal 'alchemist-execute-mode-map
     "q" 'quit-window)
 
-  (evil-define-key 'normal alchemist-message-mode-map
+  (evil-collection-define-key 'normal 'alchemist-message-mode-map
     "q" 'quit-window)
 
-  (evil-define-key 'normal alchemist-help-minor-mode-map
+  (evil-collection-define-key 'normal 'alchemist-help-minor-mode-map
     "q" 'quit-window
     "K" 'alchemist-help-search-at-point
     "m" 'alchemist-help-module
@@ -75,20 +77,20 @@
     "gd" 'alchemist-goto-definition-at-point
     "g?" 'alchemist-help-minor-mode-key-binding-summary)
 
-  (evil-define-key 'normal alchemist-macroexpand-mode-map
+  (evil-collection-define-key 'normal 'alchemist-macroexpand-mode-map
     "q" 'quit-window)
 
-  (evil-define-key 'normal alchemist-refcard-mode-map
+  (evil-collection-define-key 'normal 'alchemist-refcard-mode-map
     "gd" 'alchemist-refcard--describe-funtion-at-point
     "g?" 'alchemist-refcard--describe-funtion-at-point
     "q" 'quit-window)
 
-  (evil-define-key 'normal alchemist-mix-mode-map
+  (evil-collection-define-key 'normal 'alchemist-mix-mode-map
     "q" 'quit-window
     "i" 'alchemist-mix-send-input-to-mix-process
     "gr" 'alchemist-mix-rerun-last-task)
 
-  (evil-define-key 'normal alchemist-test-report-mode-map
+  (evil-collection-define-key 'normal 'alchemist-test-report-mode-map
     "q" 'quit-window
     "t" 'toggle-truncate-lines
     "gr" 'alchemist-mix-rerun-last-test
@@ -100,7 +102,7 @@
     "[" 'alchemist-test-previous-stacktrace-file
     (kbd "C-c C-k") 'alchemist-report-interrupt-current-process)
 
-  (evil-define-key 'normal alchemist-mode-map
+  (evil-collection-define-key 'normal 'alchemist-mode-map
     "gz" 'alchemist-iex-run
     "K" 'alchemist-help-search-at-point
     "gd" 'alchemist-goto-definition-at-point

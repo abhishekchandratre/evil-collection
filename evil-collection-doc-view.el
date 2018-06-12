@@ -30,12 +30,13 @@
 (require 'evil)
 (require 'doc-view)
 
+(declare-function evil-collection-define-key "evil-collection")
 (defconst evil-collection-doc-view-maps '(doc-view-mode-map))
 
 (defun evil-collection-doc-view-setup ()
   "Set up `evil' bindings for `doc-view'."
   (evil-set-initial-state 'doc-view-mode 'normal)
-  (evil-define-key 'normal doc-view-mode-map
+  (evil-collection-define-key 'normal 'doc-view-mode-map
     "q" 'quit-window
     (kbd "C-j") 'doc-view-next-page
     (kbd "C-k") 'doc-view-previous-page
@@ -76,7 +77,7 @@
 
   ;; TODO: What if the user changes `evil-want-C-u-scroll' after this is run?
   (when evil-want-C-u-scroll
-    (evil-define-key 'normal doc-view-mode-map
+    (evil-collection-define-key 'normal 'doc-view-mode-map
       (kbd "C-u") 'backward-page)))
 
 (provide 'evil-collection-doc-view)

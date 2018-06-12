@@ -30,13 +30,15 @@
 (require 'evil)
 (require 'simple)
 
+(declare-function evil-collection-define-key "evil-collection")
+
 (defvar special-mode-map)
 
 (defconst evil-collection-simple-maps '(special-mode-map))
 
 (defun evil-collection-simple-setup ()
   "Set up `evil' bindings for `simple'."
-  (evil-define-key '(normal visual) special-mode-map
+  (evil-collection-define-key '(normal visual) 'special-mode-map
     "q" 'quit-window
     " " 'scroll-up-command
     "g?" 'describe-mode

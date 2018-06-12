@@ -30,11 +30,12 @@
 (require 'evil)
 (require 'xref)
 
+(declare-function evil-collection-define-key "evil-collection")
 (defconst evil-collection-xref-maps '(xref--xref-buffer-mode-map))
 
 (defun evil-collection-xref-setup ()
   "Set up `evil' bindings for `xref'."
-  (evil-define-key 'normal xref--xref-buffer-mode-map
+  (evil-collection-define-key 'normal 'xref--xref-buffer-mode-map
     "q" 'quit-window
     "gj" 'xref-next-line
     "gk" 'xref-prev-line

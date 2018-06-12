@@ -30,6 +30,7 @@
 (require 'emms nil t)
 (require 'evil-collection-util)
 
+(declare-function evil-collection-define-key "evil-collection")
 (declare-function emms-with-inhibit-read-only-t "emms")
 (declare-function emms-playlist-mode-correct-previous-yank "emms-playlist-mode")
 
@@ -75,7 +76,7 @@ The return value is the yanked text."
 
   (evil-collection-util-inhibit-insert-state emms-browser-mode-map)
   (add-hook 'emms-browser-mode-hook 'evil-normal-state)
-  (evil-define-key 'normal emms-browser-mode-map
+  (evil-collection-define-key 'normal 'emms-browser-mode-map
     ;; playback controls
     "x" 'emms-pause
     "X" 'emms-stop
@@ -144,7 +145,7 @@ The return value is the yanked text."
     (evil-collection-emms-browser-setup))
 
   (evil-set-initial-state 'emms-playlist-mode 'normal)
-  (evil-define-key 'normal emms-playlist-mode-map
+  (evil-collection-define-key 'normal 'emms-playlist-mode-map
     ;; playback controls
     "x" 'emms-pause
     "X" 'emms-stop
@@ -197,15 +198,15 @@ The return value is the yanked text."
 
     (kbd "M-y") 'emms-playlist-mode-yank-pop)
 
-  (evil-define-key 'visual emms-playlist-mode-map
+  (evil-collection-define-key 'visual 'emms-playlist-mode-map
     ;; "d" 'emms-playlist-mode-kill
     "D" 'emms-playlist-mode-kill)
 
-  (evil-define-key 'normal emms-browser-search-mode-map
+  (evil-collection-define-key 'normal 'emms-browser-search-mode-map
     "q" 'emms-browser-kill-search)
 
   (evil-set-initial-state 'emms-metaplaylist-mode 'normal)
-  (evil-define-key 'normal emms-metaplaylist-mode-map
+  (evil-collection-define-key 'normal 'emms-metaplaylist-mode-map
     (kbd "<return>") 'emms-metaplaylist-mode-goto-current
     (kbd "<space>") 'emms-metaplaylist-mode-set-active
     "gr" 'emms-metaplaylist-mode-update

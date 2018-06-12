@@ -30,12 +30,13 @@
 (require 'evil)
 (require 'help-mode)
 
+(declare-function evil-collection-define-key "evil-collection")
 (defconst evil-collection-help-maps '(help-mode-map))
 
 (defun evil-collection-help-setup ()
   "Set up `evil' bindings for `help'."
   (evil-set-initial-state 'help-mode 'normal)
-  (evil-define-key 'normal help-mode-map
+  (evil-collection-define-key 'normal 'help-mode-map
     ;; motion
     (kbd "SPC") 'scroll-up-command
     (kbd "S-SPC") 'scroll-down-command

@@ -31,12 +31,13 @@
 (require 'evil-collection-man) ; WoMan's keymap inherits from Man.
 (require 'woman)
 
+(declare-function evil-collection-define-key "evil-collection")
 (defconst evil-collection-woman-maps '(woman-mode-map))
 
 (defun evil-collection-woman-setup ()
   "Set up `evil' bindings for `woman'."
   (evil-set-initial-state 'woman-mode 'normal)
-  (evil-define-key 'normal woman-mode-map
+  (evil-collection-define-key 'normal 'woman-mode-map
     (kbd "]") 'WoMan-next-manpage
     (kbd "[") 'WoMan-previous-manpage
 

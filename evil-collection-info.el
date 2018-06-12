@@ -32,13 +32,14 @@
 (require 'evil-collection-evil-search)
 (require 'info)
 
+(declare-function evil-collection-define-key "evil-collection")
 (defconst evil-collection-info-maps '(Info-mode-map))
 
 (defun evil-collection-info-setup ()
   "Set up `evil' bindings for `info-mode'."
   (evil-collection-util-inhibit-insert-state Info-mode-map)
   (evil-set-initial-state 'Info-mode 'normal)
-  (evil-define-key 'normal Info-mode-map
+  (evil-collection-define-key 'normal 'Info-mode-map
     (kbd "<tab>") 'Info-next-reference
     (kbd "S-<tab>") 'Info-prev-reference
 
@@ -97,7 +98,7 @@
     "ZQ" 'evil-quit
     "ZZ" 'Info-exit)
 
-  (evil-define-key 'operator Info-mode-map
+  (evil-collection-define-key 'operator 'Info-mode-map
     "u" '(menu-item                     ; Like eww.
           ""
           nil

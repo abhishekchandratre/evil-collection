@@ -30,6 +30,8 @@
 (require 'evil)
 (require 'python)
 
+(declare-function evil-collection-define-key "evil-collection")
+
 (defconst evil-collection-python-maps '(python-mode-map))
 
 (defun evil-collection-python-set-evil-shift-width ()
@@ -40,7 +42,7 @@
   "Set up `evil' bindings for `python'."
   (add-hook 'python-mode-hook #'evil-collection-python-set-evil-shift-width)
 
-  (evil-define-key 'normal python-mode-map
+  (evil-collection-define-key 'normal 'python-mode-map
     "gz" 'python-shell-switch-to-shell))
 
 (provide 'evil-collection-python)

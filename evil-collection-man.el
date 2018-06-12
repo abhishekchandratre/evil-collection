@@ -30,12 +30,13 @@
 (require 'evil)
 (require 'man)
 
+(declare-function evil-collection-define-key "evil-collection")
 (defconst evil-collection-man-maps '(Man-mode-map))
 
 (defun evil-collection-man-setup ()
   "Set up `evil' bindings for `man'."
   (evil-set-initial-state 'Man-mode 'normal)
-  (evil-define-key 'normal Man-mode-map
+  (evil-collection-define-key 'normal 'Man-mode-map
     ;; motion
     (kbd "SPC") 'scroll-up-command
     (kbd "S-SPC") 'scroll-down-command

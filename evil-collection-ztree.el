@@ -29,6 +29,8 @@
 (require 'evil-collection-util)
 (require 'ztree nil t)
 
+(declare-function evil-collection-define-key "evil-collection")
+
 (defvar ztree-mode-map)
 (defvar ztreediff-mode-map)
 
@@ -39,7 +41,7 @@
 
   (evil-collection-util-inhibit-insert-state ztree-mode-map)
   (evil-set-initial-state 'ztree-mode 'normal)
-  (evil-define-key 'normal ztree-mode-map
+  (evil-collection-define-key 'normal 'ztree-mode-map
     (kbd "<tab>") 'ztree-jump-side
     (kbd "<return>") 'ztree-perform-action
     (kbd "SPC") 'ztree-perform-soft-action

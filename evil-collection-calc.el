@@ -29,6 +29,7 @@
 (require 'evil-collection-util)
 (require 'calc)
 
+(declare-function evil-collection-define-key "evil-collection")
 (defconst evil-collection-calc-maps '(calc-mode-map))
 
 (defun evil-collection-calc-setup ()
@@ -41,7 +42,7 @@
   ;; while making the bindings much harder to maintain.
   (require 'calc-ext)
 
-  (evil-define-key 'normal calc-mode-map
+  (evil-collection-define-key 'normal 'calc-mode-map
     "0" 'calcDigit-start
     "1" 'calcDigit-start
     "2" 'calcDigit-start
@@ -166,7 +167,7 @@
     ;; "ZZ" 'quit-window ; TODO: Rebind "Z"?
     "q" 'calc-quit)
 
-  (evil-define-key 'visual calc-mode-map
+  (evil-collection-define-key 'visual 'calc-mode-map
     "d" 'calc-kill-region))
 
 (provide 'evil-collection-calc)

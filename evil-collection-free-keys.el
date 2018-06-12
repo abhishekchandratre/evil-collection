@@ -28,6 +28,8 @@
 (require 'evil)
 (require 'free-keys nil t)
 
+(declare-function evil-collection-define-key "evil-collection")
+
 ;;; Code:
 (defvar free-keys-mode-map)
 
@@ -43,7 +45,7 @@
   (add-hook 'free-keys-mode-hook
             #'evil-collection-free-keys-set-header-line-format)
   (evil-set-initial-state 'free-keys-mode 'normal)
-  (evil-define-key 'normal free-keys-mode-map
+  (evil-collection-define-key 'normal 'free-keys-mode-map
     "c" 'free-keys-change-buffer
     "p" 'free-keys-set-prefix
     "q" 'quit-window))

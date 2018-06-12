@@ -30,12 +30,13 @@
 (require 'evil)
 (require 'prodigy nil t)
 
+(declare-function evil-collection-define-key "evil-collection")
 (defconst evil-collection-prodigy-maps '(prodigy-mode-map
                                          prodigy-view-mode-map))
 
 (defun evil-collection-prodigy-setup ()
   "Set up `evil' bindings for `prodigy'."
-  (evil-define-key 'normal prodigy-mode-map
+  (evil-collection-define-key 'normal 'prodigy-mode-map
     ;; quit
     "q" 'quit-window
 
@@ -72,7 +73,7 @@
     (kbd "C-k") 'prodigy-prev-with-status
     (kbd "Y") 'prodigy-copy-cmd)
 
-  (evil-define-key 'normal prodigy-view-mode-map
+  (evil-collection-define-key 'normal 'prodigy-view-mode-map
     "x" 'prodigy-view-clear-buffer))
 
 (provide 'evil-collection-prodigy)

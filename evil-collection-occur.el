@@ -29,6 +29,8 @@
 ;;; Code:
 (require 'evil)
 
+(declare-function evil-collection-define-key "evil-collection")
+
 (when (> emacs-major-version 25)
   (require 'replace))
 
@@ -39,7 +41,7 @@
   "Set up `evil' bindings for `occur'."
   (evil-set-initial-state 'occur-mode 'normal)
 
-  (evil-define-key 'normal occur-mode-map
+  (evil-collection-define-key 'normal 'occur-mode-map
     ;; Like `wdired-mode'.
     (kbd "C-x C-q") 'occur-edit-mode
 
@@ -60,7 +62,7 @@
     "c" 'clone-buffer
     (kbd "C-c C-f") 'next-error-follow-minor-mode)
 
-  (evil-define-key 'normal occur-edit-mode-map
+  (evil-collection-define-key 'normal 'occur-edit-mode-map
     ;; Like `wdired-mode'.
     (kbd "C-x C-q") 'occur-cease-edit
 

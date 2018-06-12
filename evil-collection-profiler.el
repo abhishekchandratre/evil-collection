@@ -30,13 +30,15 @@
 (require 'evil)
 (require 'profiler)
 
+(declare-function evil-collection-define-key "evil-collection")
+
 (defconst evil-collection-profiler-maps '(profiler-report-mode-map))
 
 (defun evil-collection-profiler-setup ()
   "Set up `evil' bindings for `profiler'."
   (evil-set-initial-state 'profiler-report-mode 'normal)
 
-  (evil-define-key 'normal profiler-report-mode-map
+  (evil-collection-define-key 'normal 'profiler-report-mode-map
     ;; motion
     (kbd "SPC") 'scroll-up-command
     (kbd "S-SPC") 'scroll-down-command

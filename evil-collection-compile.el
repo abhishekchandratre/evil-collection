@@ -31,13 +31,14 @@
 (require 'compile)
 (require 'evil-collection-evil-search)
 
+(declare-function evil-collection-define-key "evil-collection")
 (defconst evil-collection-compile-maps '(compilation-mode-map))
 
 (defun evil-collection-compile-setup ()
   "Set up `evil' bindings for `compile'."
   (evil-set-initial-state 'compilation-mode 'normal)
 
-  (evil-define-key 'normal compilation-mode-map
+  (evil-collection-define-key 'normal 'compilation-mode-map
     "g?" 'describe-mode
     "?" evil-collection-evil-search-backward
     "gg" 'evil-goto-first-line

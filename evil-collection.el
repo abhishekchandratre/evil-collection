@@ -30,8 +30,10 @@
 ;; If you want to use Evil in the minibuffer, you'll have to enable it by
 ;; setting `evil-collection-setup-minibuffer' to t before loading this package.
 ;; This is so because many users find it confusing.
+;; Some minibuffer-related packages such as Helm rely on this option.
 
 ;;; Code:
+(eval-when-compile (require 'subr-x))
 (require 'cl-lib)
 (require 'evil)
 
@@ -46,6 +48,8 @@ or evil-collection.")
        '(evil-collection)
        "`evil-want-integration' was set to nil but not before loading evil."))
   (require 'evil-collection-integration))
+
+(declare-function org-table-align "org-table.el" nil)
 
 (defgroup evil-collection nil
   "A set of keybindings for Evil mode"
@@ -81,6 +85,7 @@ or evil-collection.")
     dired
     doc-view
     edebug
+    ediff
     eldoc
     elfeed
     elisp-mode
@@ -166,6 +171,25 @@ this confusing. It will be included if
   :type '(repeat (choice symbol sexp))
   :group 'evil-collection)
 
+(defcustom evil-collection-key-whitelist '()
+  "List of keys that may be used by Evil Collection.
+This is a list of strings that are suitable for input to
+`kbd'.  If there are no keys in the list, the whitelist will be ignored."
+  :type '(repeat string)
+  :group 'evil-collection)
+
+(defcustom evil-collection-key-blacklist '()
+  "List of keys that may not be used by Evil Collection.
+This is a list of strings that are suitable for input to `kbd'."
+  :type '(repeat string)
+  :group 'evil-collection)
+
+(defvar evil-collection--bindings-record (make-hash-table :test 'eq)
+  "Record of bindings currently made by Evil Collection. This is
+a hash-table with the package symbol as a key.  The associated
+values are the package's bindings which are stored as a list of
+the form ((STATE KEY BINDING)).")
+
 (defvar evil-collection-setup-hook nil
   "Hook run by `evil-collection-init' for each mode that is evilified.
 This hook runs after all setup (including keybindings) for a mode has already
@@ -174,6 +198,93 @@ mode and a list of keymap names (i.e. symbols, not actual keymaps) customized by
 Evil Collection for that mode. More arguments may be added in the future, so
 functions added to this hook should include a \"&rest _rest\" for forward
 compatibility.")
+
+(defvar evil-collection-describe-buffer "*evil-collection*"
+  "Name for Evil Collection buffer used to describe bindings.")
+
+(defun evil-collection-define-key (state map-sym &rest bindings)
+  "Wrapper for `evil-define-key*' with additional features.
+Unlike `evil-define-key*' MAP-SYM should be a quoted keymap other
+than the unquoted keymap required for `evil-define-key*'.  This
+function adds the ability to filter keys on the basis of
+`evil-collection-key-whitelist' and
+`evil-collection-key-blacklist'. It also stores bindings in
+`evil-collection--bindings-record'."
+  (declare (indent defun))
+  (let* ((whitelist (mapcar 'kbd evil-collection-key-whitelist))
+         (blacklist (mapcar 'kbd evil-collection-key-blacklist))
+         (record (gethash map-sym evil-collection--bindings-record))
+         filtered-bindings)
+    (while bindings
+      (let ((key (pop bindings))
+            (def (pop bindings)))
+        (when (or (and whitelist (member key whitelist))
+                  (not (member key blacklist)))
+          (if (consp state)
+              (dolist (st state)
+                (push (list (if st st 'all) (key-description key) def)
+                      record))
+            (push (list (if state state 'all) (key-description key) def)
+                  record))
+          (push key filtered-bindings)
+          (push def filtered-bindings))))
+    (puthash map-sym record evil-collection--bindings-record)
+    (setq filtered-bindings (nreverse filtered-bindings))
+    (cond ((and (boundp map-sym) (keymapp (symbol-value map-sym)))
+           (apply #'evil-define-key*
+                  state (symbol-value map-sym) filtered-bindings))
+          ((boundp map-sym)
+           (user-error "evil-collection: %s is not a keymap" map-sym))
+          (t
+           (let* ((fname (format "evil-collection-define-key-in-%s" map-sym))
+                  (fun (make-symbol fname)))
+             (fset fun `(lambda (&rest args)
+                          (when (and (boundp ',map-sym) (keymapp ,map-sym))
+                            (remove-hook 'after-load-functions #',fun)
+                            (apply #'evil-define-key*
+                                   ',state ,map-sym ',filtered-bindings))))
+             (add-hook 'after-load-functions fun t))))))
+
+(defun evil-collection--binding-lessp (a b)
+  "Comparison function used to sort bindings of the form (state key def)."
+  (let ((a-state (symbol-name (nth 0 a)))
+        (b-state (symbol-name (nth 0 b)))
+        (a-key (nth 1 a))
+        (b-key (nth 1 b)))
+    (if (not (string= a-state b-state))
+        (string-lessp a-state b-state)
+      (string-lessp a-key b-key))))
+
+(defun evil-collection-describe-all-bindings ()
+  "Print bindings made by Evil Collection to separate buffer."
+  (interactive)
+  (let ((buf (get-buffer-create evil-collection-describe-buffer)))
+    (switch-to-buffer-other-window buf)
+    (with-current-buffer buf
+      (erase-buffer)
+      (org-mode)
+      (dolist (keymap
+               (sort (hash-table-keys evil-collection--bindings-record)
+                     (lambda (a b)
+                       (string-lessp (symbol-name a)
+                                     (symbol-name b)))))
+        (insert "\n\n* " (symbol-name keymap) "\n")
+        (insert "
+| State | Key | Definition |
+|-------|-----|------------|
+")
+        (cl-loop
+         for (state key def) in
+         (sort (gethash keymap evil-collection--bindings-record)
+               #'evil-collection--binding-lessp)
+         do
+         (when (and def (not (eq def 'ignore)))
+           (insert (format "| %s | %s | %S |\n"
+                           state
+                           (replace-regexp-in-string "|" "¦" key)
+                           def))))
+        (org-table-align))
+      (goto-char (point-min)))))
 
 (defun evil-collection--translate-key (state keymap-symbol
                                              translations

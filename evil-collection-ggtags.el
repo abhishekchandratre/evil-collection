@@ -30,6 +30,8 @@
 (require 'evil)
 (require 'ggtags nil t)
 
+(declare-function evil-collection-define-key "evil-collection")
+
 (defvar ggtags-global-mode-map)
 (defvar ggtags-mode-map)
 (defvar ggtags-view-search-history-mode-map)
@@ -52,14 +54,14 @@
   (when (boundp 'ggtags-enable-navigation-keys)
     (setq ggtags-enable-navigation-keys nil))
 
-  (evil-define-key 'normal ggtags-mode-map
+  (evil-collection-define-key 'normal 'ggtags-mode-map
     "gd" 'ggtags-find-tag-dwim
     (kbd "C-t") 'ggtags-prev-mark
     "gf" 'ggtags-find-file)
 
-  (evil-define-key 'normal ggtags-view-search-history-mode-map
-    "gj" 'ggtags-next-mark
-    "gk" 'ggtags-prev-mark
+  (evil-collection-define-key 'normal 'ggtags-view-search-history-mode-map
+    "gj" 'ggtags-view-search-history-next
+    "gk" 'ggtags-view-search-history-prev
     (kbd "C-j") 'ggtags-view-search-history-next
     (kbd "C-k") 'ggtags-view-search-history-prev
     "]" 'ggtags-view-search-history-next
@@ -70,7 +72,7 @@
     "R" 'ggtags-view-search-history-action
     "q" 'ggtags-kill-window)
 
-  (evil-define-key 'normal ggtags-view-tag-history-mode-map
+  (evil-collection-define-key 'normal 'ggtags-view-tag-history-mode-map
     "gj" 'next-error-no-select
     (kbd "C-j") 'next-error-no-select
     "]" 'next-error-no-select
@@ -79,7 +81,7 @@
     (kbd "[") 'previous-error-no-select
     "q" 'ggtags-kill-window)
 
-  (evil-define-key 'normal ggtags-navigation-map
+  (evil-collection-define-key 'normal 'ggtags-navigation-map
     ;; navigation
     "gj" 'next-error
     "gk" 'next-error

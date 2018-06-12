@@ -30,13 +30,14 @@
 (require 'evil)
 (require 'pass nil t)
 
+(declare-function evil-collection-define-key "evil-collection")
 (defvar pass-mode-map)
 
 (defconst evil-collection-pass-maps '(pass-mode-map))
 
 (defun evil-collection-pass-setup ()
   "Set up `evil' bindings for `pass-mode'."
-  (evil-define-key 'normal pass-mode-map
+  (evil-collection-define-key 'normal 'pass-mode-map
     "gj" 'pass-next-entry
     "gk" 'pass-prev-entry
     (kbd "C-j") 'pass-next-entry

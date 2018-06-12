@@ -30,13 +30,14 @@
 (require 'cus-edit)
 (require 'evil)
 
+(declare-function evil-collection-define-key "evil-collection")
 (defconst evil-collection-custom-maps '(custom-mode-map))
 
 (defun evil-collection-custom-setup ()
   "Set up `evil' bindings for `Custom-mode'."
   (evil-set-initial-state 'Custom-mode 'normal)
 
-  (evil-define-key 'normal custom-mode-map
+  (evil-collection-define-key 'normal 'custom-mode-map
     ;; motion
     (kbd "<tab>") 'widget-forward
     (kbd "S-<tab>") 'widget-backward

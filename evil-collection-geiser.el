@@ -30,6 +30,8 @@
 (require 'evil)
 (require 'geiser nil t)
 
+(declare-function evil-collection-define-key "evil-collection")
+
 (defvar geiser-debug-mode-map)
 (defvar geiser-doc-mode-map)
 
@@ -56,10 +58,10 @@
   (evil-set-initial-state 'geiser-debug-mode 'normal)
   (evil-set-initial-state 'geiser-doc-mode 'normal)
 
-  (evil-define-key 'normal geiser-debug-mode-map
+  (evil-collection-define-key 'normal 'geiser-debug-mode-map
     "q" 'quit-window)
 
-  (evil-define-key 'normal geiser-doc-mode-map
+  (evil-collection-define-key 'normal 'geiser-doc-mode-map
     (kbd "<tab>") 'forward-button
     (kbd "<S-tab>") 'backward-button
     "gd" 'geiser-edit-symbol-at-point
@@ -78,10 +80,10 @@
     "x" 'geiser-doc-kill-page
     "X" 'geiser-doc-clean-history)
 
-  (evil-define-key 'insert geiser-repl-mode-map
+  (evil-collection-define-key 'insert 'geiser-repl-mode-map
     (kbd "S-<return>") 'geiser-repl--newline-and-indent)
 
-  (evil-define-key 'normal geiser-repl-mode-map
+  (evil-collection-define-key 'normal 'geiser-repl-mode-map
     "gd" 'geiser-edit-symbol-at-point
     (kbd "C-t") 'geiser-pop-symbol-stack
     "gj" 'geiser-repl-next-prompt
@@ -92,7 +94,7 @@
     "[" 'geiser-repl-previous-prompt
     "K" 'geiser-doc-symbol-at-point)
 
-  (evil-define-key 'normal geiser-mode-map
+  (evil-collection-define-key 'normal 'geiser-mode-map
     "gd" 'geiser-edit-symbol-at-point
     (kbd "C-t") 'geiser-pop-symbol-stack
     "gZ" 'geiser-mode-switch-to-repl-and-enter

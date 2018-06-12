@@ -34,6 +34,7 @@
 (require 'evil)
 (require 'tabulated-list)
 
+(declare-function evil-collection-define-key "evil-collection")
 (defconst evil-collection-buff-menu-maps '(Buffer-menu-mode-map))
 
 ;; This is for `evil-collection-Buffer-menu-unmark-all-buffers.'
@@ -73,7 +74,7 @@ When called interactively prompt for MARK;  RET remove all marks."
   (evil-set-initial-state 'Buffer-menu-mode 'normal)
   (evil-add-hjkl-bindings Buffer-menu-mode-map 'normal)
 
-  (evil-define-key 'normal Buffer-menu-mode-map
+  (evil-collection-define-key 'normal 'Buffer-menu-mode-map
     "ZQ" 'evil-quit
     "ZZ" 'quit-window
     "gr" 'revert-buffer

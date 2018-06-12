@@ -30,11 +30,13 @@
 (require 'evil)
 (require 'robe nil t)
 
+(declare-function evil-collection-define-key "evil-collection")
+
 (defconst evil-collection-robe-maps '(robe-mode-map))
 
 (defun evil-collection-robe-setup ()
   "Set up `evil' bindings for `robe'."
-  (evil-define-key 'normal robe-mode-map
+  (evil-collection-define-key 'normal 'robe-mode-map
     "gd" 'robe-jump
     (kbd "C-t") 'pop-tag-mark
     "K" 'robe-doc

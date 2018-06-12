@@ -30,11 +30,13 @@
 (require 'evil)
 (require 'kotlin-mode nil t)
 
+(declare-function evil-collection-define-key "evil-collection")
 (defconst evil-collection-kotlin-maps '(kotlin-mode-map))
 
 (defun evil-collection-kotlin-mode-setup ()
   "Set up `evil' bindings for `kotlin-mode'."
-  (evil-define-key 'normal kotlin-mode-map "gz" 'kotlin-repl))
+  (evil-collection-define-key 'normal 'kotlin-mode-map
+    "gz" 'kotlin-repl))
 
 (provide 'evil-collection-kotlin-mode)
 ;;; evil-collection-kotlin-mode.el ends here

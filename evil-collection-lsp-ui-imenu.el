@@ -30,12 +30,13 @@
 (require 'lsp-ui nil t)
 (require 'evil)
 
+(declare-function evil-collection-define-key "evil-collection")
 (defconst evil-collection-lsp-ui-imenu-mode-maps '(lsp-ui-imenu-mode-map))
 
 (defun evil-collection-lsp-ui-imenu-setup ()
   "Set up `evil' bindings for `lsp-ui-imenu'."
   (evil-set-initial-state 'lsp-ui-imenu-mode 'normal)
-  (evil-define-key 'normal lsp-ui-imenu-mode-map
+  (evil-collection-define-key 'normal 'lsp-ui-imenu-mode-map
     (kbd "l") 'lsp-ui-imenu--prev-kind
     (kbd "h") 'lsp-ui-imenu--next-kind
     (kbd "q") 'lsp-ui-imenu--kill

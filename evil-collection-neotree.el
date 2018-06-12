@@ -31,6 +31,8 @@
 (require 'evil)
 (require 'neotree nil t)
 
+(declare-function evil-collection-define-key "evil-collection")
+(declare-function neotree-make-executor "neotree.el")
 (defconst evil-collection-neotree-maps '(neotree-mode-map))
 
 (defun evil-collection-neotree-setup ()
@@ -38,7 +40,7 @@
 
   (evil-set-initial-state 'neotree-mode 'normal) ;; Neotree start in normal by default.
 
-  (evil-define-key 'normal neotree-mode-map
+  (evil-collection-define-key 'normal 'neotree-mode-map
 
     (kbd "<return>") (neotree-make-executor
                       :file-fn 'neo-open-file
